@@ -12,7 +12,8 @@
     "dev": "quasar dev",
     "build": "quasar build",
     "build:pwa": "quasar build -m pwa",
-    "new:layout": "quasar new layout"
+    "new:layout": "quasar new layout",
+    "new page": "quasar new page"
 
   },
   "dependencies": {
