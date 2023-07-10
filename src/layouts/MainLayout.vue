@@ -1,43 +1,65 @@
 <script setup>
-import routes from "src/router/routes.js";
 import { computed } from "vue";
-const tabs = computed(() => {
-  const layout = routes.filter((item) => {
-    return item.path === "/auth";
-  });
-  const children = layout.map((item) => {
-    return item.children;
-  });
-  return children[0];
-});
+import routes from "src/router/routes";
+import MainHeader from "components/MainHeader.vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const tabs = computed(() =>
+  routes
+    .find((r) => r.path === "/auth")
+    ?.children?.filter((r) => r.meta && r.meta.label)
+    .map((r) => ({
+      label: r.meta.label,
+      icon: r.meta.icon,
+      to: r.path,
+    }))
+);
 </script>
 
 <template>
   <q-layout view="hHh lpR fFf">
-    <q-header elevated class="bg-primary text-white" height-hint="98">
-      <q-toolbar>
-        <q-toolbar-title>
-          <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
-          </q-avatar>
-          VMC
-        </q-toolbar-title>
-      </q-toolbar>
+    <q-header bordered class="doc-header header-toolbar doc-brand">
+      <MainHeader />
 
-      <q-tabs align="left">
-        <!-- <q-route-tab to="/page1" label="Page One" />
-        <q-route-tab to="/page2" label="Page Two" />
-        <q-route-tab to="/page3" label="Page Three" /> -->
-        <q-route-tab
-          v-for="tab in tabs"
-          :key="tab.path"
-          :to="'/auth/' + tab.path"
-          :label="tab.name"
-        />
-      </q-tabs>
+      <q-toolbar flat class="q-pl-lg q-pr-md no-wrap doc-header__secondary">
+        <q-tabs align="right">
+          <q-route-tab
+            v-for="(tab, index) in tabs"
+            :key="index"
+            no-caps
+            :label="tab.label"
+            :to="tab.to"
+            style="
+              padding: 8px 12px;
+              min-width: 0;
+              min-height: 0;
+              font-weight: 700;
+            "
+            content-class="text-weight-bold text-size-14 letter-spacing-100"
+          />
+        </q-tabs>
+
+        <q-space />
+
+        <q-btn
+          flat
+          class="text-weight-bold text-size-14 letter-spacing-100"
+          style="
+            padding: 8px 12px;
+            min-width: 0;
+            min-height: 0;
+            font-weight: 700;
+          "
+          @click="router.push({ name: 'login' })"
+        >
+          Logout
+        </q-btn>
+      </q-toolbar>
     </q-header>
 
-    <q-page-container>
+    <q-page-container class="doc-technical">
       <router-view />
     </q-page-container>
   </q-layout>

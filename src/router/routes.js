@@ -1,12 +1,21 @@
-const routes = [
+export default [
   {
     path: "/guest",
     component: () => import("layouts/GuestLayout.vue"),
     children: [
-      { path: "", component: () => import("pages/LoginPage.vue") },
+      {
+        path: "",
+        redirect: { name: "login" },
+      },
+      {
+        path: "login",
+        name: "login",
+        component: () => import("pages/login/IndexPage.vue"),
+      },
       {
         path: "register",
-        component: () => import("pages/RegistrationPage.vue"),
+        name: "register",
+        component: () => import("pages/registration/IndexPage.vue"),
       },
     ],
   },
@@ -15,34 +24,49 @@ const routes = [
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
+        path: "",
+        redirect: { name: "patients" },
+      },
+      {
         path: "patients",
+        name: "patients",
         component: () => import("pages/patients/IndexPage.vue"),
-        name: "Patients",
+        meta: {
+          label: "Patients",
+          icon: "personal_injury",
+        },
       },
       {
         path: "appointments",
-        component: () => import("pages/AppointmentsPage.vue"),
-        name: "Appointments",
+        name: "appointments",
+        component: () => import("pages/appointments/IndexPage.vue"),
+        meta: {
+          label: "Appointments",
+          icon: "event",
+        },
       },
       {
         path: "chats",
-        component: () => import("pages/ChatsPage.vue"),
-        name: "Chats",
+        name: "chats",
+        component: () => import("pages/chats/IndexPage.vue"),
+        meta: {
+          label: "Chats",
+          icon: "question_answer",
+        },
       },
       {
         path: "consultations",
-        component: () => import("pages/ConsultationsPage.vue"),
-        name: "Consultations",
+        name: "consultations",
+        component: () => import("pages/consultations/IndexPage.vue"),
+        meta: {
+          label: "Consultations",
+          icon: "medical_services",
+        },
       },
     ],
   },
-
-  // Always leave this as last one,
-  // but you can also remove it
   {
     path: "/:catchAll(.*)*",
     component: () => import("pages/ErrorNotFound.vue"),
   },
 ];
-
-export default routes;
