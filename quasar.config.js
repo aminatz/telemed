@@ -75,7 +75,8 @@ module.exports = configure(function (/* ctx */) {
         FIREBASE_PROJECT_ID: "vmc-web-app",
         FIREBASE_STORAGE_BUCKET: "vmc-web-app.appspot.com",
         FIREBASE_MESSAGE_SENDER_ID: "694868404644",
-        FIREBASE_APP_ID: "1:694868404644:web:1d9f5e984767b058de7931"
+        FIREBASE_APP_ID: "1:694868404644:web:1d9f5e984767b058de7931",
+        API_URL: "http://localhost:8000"
       },
       // rawDefine: {}
       // ignorePublicFolder: true,
