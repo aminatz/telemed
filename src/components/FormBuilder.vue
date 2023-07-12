@@ -55,6 +55,7 @@ const model = computed({
       :class="`col-${field.col || 12} q-mb-md`"
     >
       <component
+        v-if="!field.authOnly"
         :is="field.component"
         v-bind="field.attrs"
         v-model="model[field.model]"
