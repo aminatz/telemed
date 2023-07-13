@@ -1,13 +1,24 @@
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, onUnmounted } from "vue";
 import ChatComponent from "components/ChatComponent.vue";
-import { getChats, createChat } from "models/chat";
+import { listenChats, createChat } from "models/chat";
 
 const chats = ref([]);
 const selected_id = ref(null);
+let unsubscribe = null;
+
+const loadMessages = async () => {
+  unsubscribe = listenChats(1234, (data) => {
+    chats.value = data;
+  });
+};
 
 onMounted(async () => {
-  chats.value = await getChats(1234);
+  loadMessages();
+});
+
+onUnmounted(() => {
+  unsubscribe();
 });
 
 const inbox = computed(() => {
@@ -44,7 +55,6 @@ const sendMessage = async (text) => {
       name: inbox.value.find((i) => i.id === selected_id.value).name,
     }
   );
-  chats.value = await getChats(1234);
 };
 </script>
 

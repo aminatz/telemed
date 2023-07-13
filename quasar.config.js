@@ -66,18 +66,9 @@ module.exports = configure(function (/* ctx */) {
 
       // rebuildCache: true, // rebuilds Vite/linter/etc cache on startup
 
-      //publicPath: '/app/',
+      publicPath: '/app/',
       // analyze: true,
-      env: {
-        APP_NAME: "Quasar App",
-        FIREBASE_API_KEY: "AIzaSyDbKpqKDy5VcP8yvCIC6l1BydNSItwiXy0",
-        FIREBASE_AUTH_DOMAIN: "vmc-web-app.firebaseapp.com",
-        FIREBASE_PROJECT_ID: "vmc-web-app",
-        FIREBASE_STORAGE_BUCKET: "vmc-web-app.appspot.com",
-        FIREBASE_MESSAGE_SENDER_ID: "694868404644",
-        FIREBASE_APP_ID: "1:694868404644:web:1d9f5e984767b058de7931",
-        API_URL: "http://localhost:8000"
-      },
+      env: require('dotenv').config().parsed,
       // rawDefine: {}
       // ignorePublicFolder: true,
       // minify: false,
@@ -108,11 +99,7 @@ module.exports = configure(function (/* ctx */) {
       proxy: {
         // proxy all requests starting with /api to jsonplaceholder
         '/api': {
-          target: 'http://some.api.target.com:7070',
-          changeOrigin: true,
-          pathRewrite: {
-            '^/api': ''
-          }
+          target: 'http://localhost:8000',
         }
       }
     },
