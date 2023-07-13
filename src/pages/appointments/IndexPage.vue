@@ -10,6 +10,8 @@ const appointments = ref([]);
 const columns = computed(() => createColumns());
 const loading = ref(false);
 
+const hospital = computed(() => JSON.parse(localStorage.getItem('hospital')))
+
 const fetchItems = () => {
   loading.value = true;
   getAppointments().then((data) => {
@@ -77,6 +79,7 @@ onMounted(() => {
 
             <q-td align="center">
               <q-btn
+                v-if="hospital"
                 color="primary"
                 flat
                 dense

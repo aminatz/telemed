@@ -2,7 +2,7 @@ import CustomInput from "components/CustomInput.vue";
 import CustomSelect from "components/CustomSelect.vue";
 import { requiredValidator, dateValidator } from "utils/validators";
 import { createInputFields, createTableColumns } from "models/functions";
-import { collection, getDocs, addDoc, setDoc, deleteDoc, doc } from "firebase/firestore"
+import { collection, getDocs, addDoc, setDoc, deleteDoc, doc, query, where } from "firebase/firestore"
 import { db } from "src/boot/firebaseConnection"
 
 const model = [
@@ -73,7 +73,16 @@ export const getAppointments = async () => {
   //   }, 1000);
   // });
 
-  const querySnapshot = await getDocs(collection(db, "appointments"));
+  let q = null
+  const hospital = JSON.parse(localStorage.getItem("hospital"))
+  if (hospital) {
+    q = collection(db, "appointments")
+  } else {
+    const user = JSON.parse(localStorage.getItem("user"))
+    q = query(collection(db, "appointments"), where("patient.user_id", "==", user.uid))
+  }
+
+  const querySnapshot = await getDocs(q);
 
   let appointments = [];
   querySnapshot.forEach((doc) => {
